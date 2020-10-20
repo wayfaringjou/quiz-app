@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Periodic Table Quiz App</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link href="../app.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <header class="halftone">
+      <h1>Periodic Table Quiz</h1>
+    </header>
+    <main>
+      <article>
+        <section id="question-box" class="halftone flex">
+          <h3>Question 1 of 20:</h3>
+          <p>
+            What number will you find at the bottom of each element on the
+            periodic table?
+          </p>
+        </section>
+        <section id="answers-box">
+          <form>
+            <ol>
+              <li>
+                <input name="answer" type="radio" value="Atomic Number" />
+                <label for="Atomic Number">Atomic Number</label>
+              </li>
+              <li>
+                <input name="answer" type="radio" value="Mass Number" />
+                <label for="Mass Number">Mass Number</label>
+              </li>
+              <li>
+                <input name="answer" type="radio" value="Weight Number" />
+                <label for="Weight Number">Weight Number</label>
+              </li>
+              <li>
+                <input name="answer" type="radio" value="Proton Number" />
+                <label for="Proton Number">Proton Number</label>
+              </li>
+            </ol>
+            <button type="submit" id="submit-answer">Submit</button>
+          </form>
+        </section>
+        <section id="score-box" class="halftone flex">
+          <h3>Score: <span id="score-counter">0</span></h3>
+        </section>
+      </article>
+    </main>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="app.js"></script>
+  </body>
+</html>
