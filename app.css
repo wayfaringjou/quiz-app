@@ -9,6 +9,16 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
 
+/*
+Handheld colors
+background: #cadc9f
+dark: #0f380f
+base: #306230
+light: #8bac0f
+lighter: #9bbc0f
+
+*/
+
 h1,
 h2,
 h3,
@@ -20,6 +30,7 @@ button,
 label {
   margin: 0px;
   font-family: "Work Sans", Arial, Helvetica, sans-serif;
+  color: #000;
 }
 
 h1 {
@@ -42,7 +53,7 @@ h3 {
 
 p,
 label {
-  font-size: 17px;
+  font-size: 18px;
   letter-spacing: 0.5px;
   margin: 0 0 16px;
 }
@@ -53,9 +64,11 @@ button {
   font-weight: 600;
   text-transform: uppercase;
   padding: 8px 12px;
+  color: #000;
 }
 
 body {
+  background-color: #fff;
   padding: 16px 16px;
 }
 
@@ -70,13 +83,13 @@ header,
 section {
   margin: 16px 0;
   padding: 16px;
-  border: solid 2px black;
+  border: solid 2px #000;
 }
 
 header,
 main {
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 600px;
 }
 
 header {
@@ -95,18 +108,17 @@ main {
 #start-box {
   vertical-align: middle;
   height: 159px;
-
 }
 
 #answers-box {
   border: 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
 }
 
 #answers-box form {
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #answers-box form input[type="radio"] {
@@ -114,26 +126,44 @@ main {
   color: #000;
   font-size: 18px;
   padding: 0;
-  margin: 4px;
+  margin: 8px;
+  transform: scale(1.4);
+
 }
 
 #answers-box button {
   float: right;
-  margin: 32px 16px 8px;
+}
+
+#answers-box .error-box {
+  float: left;
+  width: 65%;
+  text-align: left;
+}
+
+#answers-box .error-box p {
+  margin: 0;
+}
+
+#answers-box .submit-btn {
+  padding-top: 32px;
+  width: 100%;
 }
 
 #answers-box ol {
   margin: 0;
   padding: 0;
+  width: 100%;
   list-style: none;
   display: flex;
   flex-flow: wrap;
 }
 
 #answers-box li {
-  width: 50%;
+  width: 47%;
   margin-top: 32px;
-  text-align: center;
+  text-align: left;
+  padding: 0 8px 0 0;
 }
 
 #score-box h3 {
@@ -146,8 +176,7 @@ main {
   background-color: #fff;
 }
 
-.halftone::after
- {
+.halftone::after {
   content: "";
   background: url(images/dot-pattern.svg) 1px 2px;
   position: absolute;

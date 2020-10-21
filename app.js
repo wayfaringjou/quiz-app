@@ -119,8 +119,11 @@ function generateQuestionPrompt(currentQuestion) {
       <ol>
       ${generateAswerList(currentQuestion)}
       </ol>
-      <div class="error-box"><p><span class="js-error"></span></p><div>
+      
+      <div class="submit-btn">
+      <div class="error-box"><p><span class="js-error"></span></p></div>
       <button type="submit" id="submit-answer" class="js-submit">Submit</button>
+      </div>
     </form>
   </section>
   <section id="score-box" class="halftone flex">

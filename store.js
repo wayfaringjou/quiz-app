@@ -1,12 +1,6 @@
 const store = {
   questions: [
     {
-      question: `How many confirmed elements can you find on the periodic table?`,
-      answers: ["118", "90", "14", "56"],
-      correctAnswer: "118",
-      tidbit: `Out of the 118 elements found on the periodic table, 90 of them can be found existing in nature. The other 28 elements are man-made, and they were inspired by technetium, the first man-made element.`,
-    },
-    {
       question: `It's frequently used to fill up party balloons, but what's the symbol for helium?`,
       answers: ["He", "Ho", "H", "Hs"],
       correctAnswer: "He",
@@ -17,7 +11,7 @@ const store = {
       answers: ["Iron", "Silver", "Lithium", "Fluorine"],
       correctAnswer: "Iron",
       tidbit: `If you were working with the element denoted as "Fe" on the periodic table, you would be working with iron. Iron is the fourth most abundant element found in the earth's crust, and it's the sixth most common element in the entire universe.`,
-    },/*
+    },
     {
       question: `Elements found on Earth are exactly the same as elements found on which other planet?`,
       answers: ["Jupiter", "Venus", "Mars", "Uranus"],
@@ -126,7 +120,7 @@ const store = {
     {
       question: `What color does white phosphorus glow when oxidizing in air?`,
       answers: ["Purple", "Blue", "White", "Green"],
-      correctAnswer: "green",
+      correctAnswer: "Green",
       tidbit: `Phosphorus produces a green glow when it oxidizes. It's worth noting this is not phosphorescence, despite the name.`,
     },
     {
@@ -166,13 +160,19 @@ const store = {
       tidbit: `Technetium was the first element prepared by humans, in 1924 or 1937, depending who you credit for the discovery. The element was prepared by bombarding a molybdenum sample with neutrons. The word technetium means "artificial element".`,
     },
     {
+      question: `How many confirmed elements can you find on the periodic table?`,
+      answers: ["118", "90", "14", "56"],
+      correctAnswer: "118",
+      tidbit: `Out of the 118 elements found on the periodic table, 90 of them can be found existing in nature. The other 28 elements are man-made, and they were inspired by technetium, the first man-made element.`,
+    },
+    {
       question: `The most abundant metal in the Earth's crust is:`,
       answers: ["Magnesium", "Aluminum", "Silicon", "Iron"],
       correctAnswer: "Aluminum",
       tidbit: `Silicon is a metalloid, not a metal, although it is the third most abundant element in the Earth's crust. The most abundant metal is aluminum, which accounts for about 8% of the crust by volume.`,
-    },*/
+    },
   ],
   quizStarted: false,
   questionNumber: 0,
-  score: 0
+  score: 0,
 };

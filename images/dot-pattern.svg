@@ -44,7 +44,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -85,7 +85,7 @@
     <g
        id="g17743"
        transform="matrix(0.04637458,0,0,0.04637458,15.716212,-0.91696669)"
-       style="fill:#000000">
+       style="fill:#000000;fill-opacity:1">
       <circle
          id="circle17533"
          style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.181586"
@@ -365,7 +365,7 @@
       <g
          id="g17645"
          transform="translate(15.438581)"
-         style="fill:#000000">
+         style="fill:#000000;fill-opacity:1">
         <circle
            id="circle17625"
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.181586"
@@ -436,7 +436,7 @@
       <g
          id="g17669"
          transform="translate(15.438581)"
-         style="fill:#000000">
+         style="fill:#000000;fill-opacity:1">
         <circle
            id="circle17649"
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.181586"
@@ -507,7 +507,7 @@
       <g
          id="g17693"
          transform="translate(15.438581)"
-         style="fill:#000000">
+         style="fill:#000000;fill-opacity:1">
         <circle
            id="circle17673"
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.181586"
@@ -578,7 +578,7 @@
       <g
          id="g17717"
          transform="translate(15.438581)"
-         style="fill:#000000">
+         style="fill:#000000;fill-opacity:1">
         <circle
            id="circle17697"
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.181586"
@@ -649,7 +649,7 @@
       <g
          id="g17741"
          transform="translate(15.438581)"
-         style="fill:#000000">
+         style="fill:#000000;fill-opacity:1">
         <circle
            id="circle17721"
            style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.181586"
