@@ -61,73 +61,121 @@ function StoreState() {
 
 // These functions return HTML templates
 
-function generateStartPrompt() {}
-function generateQuestionPrompt() {}
-function generateAnswerConfirmationPrompt() {}
-function generateResultsPrompt() {}
-function generateScoreCounter() {}
-function generateQuestionCounter() {}
+function generateStartPrompt() {
+  return `
+  <article>
+  <section id="question-box" class="halftone flex">
+    <h2>A Quiz About the Periodic Table</h2>
+  </section>
+  <section id="start-box" class="halftone flex">
+    <h3>Welcome User!</h3>
+    <p>Start the quiz by pressing the button below_</p>
+    <button type="button" id="start">Start</button>
+  </section>
+ </article>`;
+}
+
+function generateQuestionCounter(currentQuestion) {
+  const questionCount = store.questions.length;
+  return `
+ <h3>Question ${currentQuestion + 1} of ${questionCount}:</h3>`;
+}
+
+function generateQuestion(currentQuestion) {
+  const question = store.questions[currentQuestion].question;
+  return `
+  <p> ${question} </p>`;
+}
+
+function generateAnswerListElements(item) {
+  return `
+  <li>
+    <input name="answer" type="radio" value="${item}" />
+    <label for="${item}">${item}</label>
+  </li>`;
+}
+
+function generateAswerList(currentQuestion) {
+  const answers = store.questions[currentQuestion].answers.map((item) =>
+    generateAnswerListElements(item)
+  );
+  return answers.join("");
+}
+
+function generateScoreCounter() {
+  return `
+      <span id="score-counter">${store.score}</span>`;
+}
+
+function generateQuestionPrompt(currentQuestion) {
+  return `
+  <article>
+  <section id="question-box" class="halftone flex">
+    ${generateQuestionCounter(currentQuestion)}
+    ${generateQuestion(currentQuestion)}
+  </section>
+  <section id="answers-box">
+    <form>
+      <ol>
+      ${generateAswerList(currentQuestion)}
+      </ol>
+      <button type="submit" id="submit-answer">Submit</button>
+    </form>
+  </section>
+  <section id="score-box" class="halftone flex">
+    <h3> Score: ${generateScoreCounter()}</h3>
+  </section>
+</article>`;
+}
+
+function generateAnswerConfirmationPrompt(currentQuestion, currentResult) {
+  return `
+  <article>
+  <section id="tidbit-box" class="halftone flex">
+    <h3>${currentResult ? `Correct!`: `Wrong.` }</h3>
+    <p>${store.questions[currentQuestion].tidbit}<p>
+  </section>
+  <section id="continue-box">
+      <button type="button" id="next">Next</button>
+  </section>
+  <section id="score-box" class="halftone flex">
+    <h3> Score: ${generateScoreCounter()}</h3>
+  </section>
+</article>`;
+}
+
+function generateResultsPrompt() {
+  return `
+  <article>
+  <section id="question-box" class="halftone flex">
+    <h2>Your Score was: ${generateScoreCounter()}</h2>
+  </section>
+  <section id="start-box" class="halftone flex">
+    <h3>You can play again!</h3>
+    <p>Restart the quiz by pressing the button below_</p>
+    <button type="button" id="restart">Start again</button>
+  </section>
+ </article>`;
+}
 
 /********** RENDER FUNCTION(S) **********/
 
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 function renderQuizView() {
   console.log(`renderQuizView ${msg}`);
-  store.quizStarted = false;
-  store.currentQuestion = 26;
-  startPrompt = `<section id="start-box" class="halftone flex">
-  <h3>Welcome User!</h3>
-  <p>Start the quiz by pressing the button below_</p>
-  <button type="button" id="start">Start</button>
-</section>`;
-
-  questionPrompt = `<article>
-  <section id="question-box" class="halftone flex">
-    <h3>Question 1 of 20:</h3>
-    <p>
-      What number will you find at the bottom of each element on the
-      periodic table?
-    </p>
-  </section>
-  <section id="answers-box">
-    <form>
-      <ol>
-        <li>
-          <input name="answer" type="radio" value="Atomic Number" />
-          <label for="Atomic Number">Atomic Number</label>
-        </li>
-        <li>
-          <input name="answer" type="radio" value="Mass Number" />
-          <label for="Mass Number">Mass Number</label>
-        </li>
-        <li>
-          <input name="answer" type="radio" value="Weight Number" />
-          <label for="Weight Number">Weight Number</label>
-        </li>
-        <li>
-          <input name="answer" type="radio" value="Proton Number" />
-          <label for="Proton Number">Proton Number</label>
-        </li>
-      </ol>
-      <button type="submit" id="submit-answer">Submit</button>
-    </form>
-  </section>
-  <section id="score-box" class="halftone flex">
-    <h3>Score: <span id="score-counter">0</span></h3>
-  </section>
-</article>`;
-
-  resultsPrompt = `<section id="question-box" class="halftone flex"><h3>Thanks for Playing</h3></section>`;
+  store.quizStarted = true;
+  store.currentQuestion = 0;
+  store.score = 10;
 
   const quizStarted = store.quizStarted;
   const currentQuestion = store.currentQuestion;
 
   if (quizStarted && currentQuestion < store.questions.length) {
-    $("main").html(questionPrompt);
+    $("main").html(generateAnswerConfirmationPrompt(currentQuestion,true));
   } else if (!quizStarted && currentQuestion === store.questions.length) {
-    $("main").html(resultsPrompt);
+    $("main").html(generateResultsPrompt());
   } else {
-    $("main").html(startPrompt);
+    $("main").html(generateStartPrompt());
   }
 }
 
