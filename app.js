@@ -1,62 +1,3 @@
-/**
- * Example store structure
- */
-/*
-const store = {
-  // 5 or more questions are required
-  questions: [
-    {
-      question: 'What color is broccoli?',
-      answers: [
-        'red',
-        'orange',
-        'pink',
-        'green'
-      ],
-      correctAnswer: 'green'
-    },
-    {
-      question: 'What is the current year?',
-      answers: [
-        '1970',
-        '2015',
-        '2019',
-        '2005'
-      ],
-      correctAnswer: '2019'
-    }
-  ],
-  quizStarted: false,
-  questionNumber: 0,
-  score: 0
-};
-*/
-
-/**
- *
- * Technical requirements:
- *
- * Your app should include a render() function, that regenerates the view each time the store is updated.
- * See your course material and access support for more details.
- *
- * NO additional HTML elements should be added to the index.html file.
- *
- * You may add attributes (classes, ids, etc) to the existing HTML elements, or link stylesheets or additional scripts if necessary
- *
- * SEE BELOW FOR THE CATEGORIES OF THE TYPES OF FUNCTIONS YOU WILL BE CREATING 👇
- *
- */
-
-/* TEMP STUFFF */
-const msg = "ran succesfully.";
-function StoreState() {
-  console.log(`********************************`);
-  console.log(`Loaded ${store.questions.length} questions`);
-  console.log(
-    `Score: ${store.score}, Quiz started state: ${store.quizStarted}, Current question: ${store.score}`
-  );
-}
-
 /********** TEMPLATE GENERATION FUNCTIONS **********/
 
 // These functions return HTML templates
@@ -202,15 +143,9 @@ function generateResultsPrompt() {
 
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 function renderQuizView() {
-  console.log(`renderQuizView ${msg}`);
-  //store.quizStarted = false;
-  //store.currentQuestion = 0;
-  //store.score = 0;
-
   const quizStarted = store.quizStarted;
   const currentQuestion = store.questionNumber;
 
-  console.log(`${quizStarted} ${currentQuestion}`);
   if (quizStarted && currentQuestion < store.questions.length) {
     $("main").html(generateQuestionPrompt(currentQuestion, true));
   } else if (!quizStarted && currentQuestion + 1 === store.questions.length) {
@@ -227,7 +162,6 @@ function renderAnswerConfirmationView(currentQuestion, currentResult) {
 }
 
 /********** EVENT HANDLER FUNCTIONS **********/
-
 // These functions handle events (submit, click, etc)
 
 function quizStartState(state) {
@@ -236,22 +170,17 @@ function quizStartState(state) {
 
 function handleStartClicked() {
   $("main").on("click", ".js-start", (e) => {
-    console.log(`handleStartClicked ${msg}`);
-    console.log(e.currentTarget);
     quizStartState(true);
-    StoreState();
     renderQuizView();
   });
 }
 
 function storeScoreCount() {
-  console.log(`storeScoreCount ${msg}`);
   store.score++;
 }
 function handleSubmitClicked() {
   $("main").on("submit", ".js-quiz-form", (e) => {
     e.preventDefault();
-    console.log(`handleSubmitClicked ${msg}`);
     const currentQuestion = store.questionNumber;
     const correctAnswer = store.questions[currentQuestion].correctAnswer;
     const submittedAnswer = $(e.currentTarget).serializeArray()[0];
@@ -266,17 +195,12 @@ function handleSubmitClicked() {
 }
 
 function storeQuestionCount() {
-  console.log(`storeQuestionCount ${msg}`);
   store.questionNumber++;
 }
 
 function handleNextClicked() {
-  console.log(`handleNextClicked ${msg}`);
   $("main").on("click", ".js-next", (e) => {
     const currentQuestion = store.questionNumber;
-    console.log(
-      `Currently on question ${currentQuestion} of ${store.questions.length}`
-    );
     if (currentQuestion + 1 === store.questions.length) {
       quizStartState(false);
       renderQuizView();
@@ -294,7 +218,6 @@ function zeroValues() {
 
 function handleStartAgainClicked() {
   $("main").on("click", ".js-restart", (e) => {
-    console.log(`handleStartAgainClicked ${msg}`);
 
     zeroValues();
     quizStartState(true);
@@ -303,7 +226,6 @@ function handleStartAgainClicked() {
 }
 
 function handleQuizApp() {
-  console.log(`handleQuizApp ${msg} Loading renderer and handlers:`);
   renderQuizView();
   handleStartClicked();
   handleSubmitClicked();
@@ -312,6 +234,3 @@ function handleQuizApp() {
 }
 
 $(handleQuizApp);
-
-/* TEMP */
-$(StoreState);

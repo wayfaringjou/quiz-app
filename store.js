@@ -17,7 +17,7 @@ const store = {
       answers: ["Jupiter", "Venus", "Mars", "Uranus"],
       correctAnswer: "Mars",
       tidbit: `We haven't yet been able to collect samples from Venus, Jupiter or Uranus, but we do know that the elements on Mars are identical to those found on Earth. Some of the elements found on Mars' crust are magnesium, iron and calcium.`,
-    },/*
+    },
     {
       question: `Its symbol is N, but do you know which element is about 78% of the air you breathe?`,
       answers: ["Niobium", "Nobelium", "Nitrogen", "Nickel"],
@@ -170,7 +170,7 @@ const store = {
       answers: ["Magnesium", "Aluminum", "Silicon", "Iron"],
       correctAnswer: "Aluminum",
       tidbit: `Silicon is a metalloid, not a metal, although it is the third most abundant element in the Earth's crust. The most abundant metal is aluminum, which accounts for about 8% of the crust by volume.`,
-    }, */
+    }
   ],
   quizStarted: false,
   questionNumber: 0,
