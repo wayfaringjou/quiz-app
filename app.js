@@ -119,20 +119,21 @@ function generateQuestionPrompt(currentQuestion) {
     ${generateQuestion(currentQuestion)}
   </section>
   <section id="answers-box">
-    <form id="answers" class="flex js-quiz-form">
-      <fieldset form="answers" class="flex">
-        <legend>Your Answer:</legend>
-        <ol>
-          ${generateAswerList(currentQuestion)}
-        </ol>
-        <button type="submit" id="submit-answer" class="halftone js-submit">Submit</button>
+    <form id="answers" class="js-quiz-form">
+      <fieldset form="answers">
+        <div id="form-wrapper" class="flex">
+          <legend>Your Answer:</legend>
+         <ol>
+           ${generateAswerList(currentQuestion)}
+         </ol>
+          <aside id="score-box" class="halftone">
+            <h3> Score: ${generateScoreCounter()}</h3>
+          </aside>
+         <button type="submit" id="submit-answer" class="halftone js-submit">Submit</button>
+        </div>
       </fieldset>
     </form>
-    <section id="score-box" class="halftone">
-      <h3> Score: ${generateScoreCounter()}</h3>
-    </section>
   </section>
-  
 </article>`;
 }
 
@@ -144,23 +145,54 @@ function generateAnswerConfirmationPrompt(currentQuestion, currentResult) {
     <p>${store.questions[currentQuestion].tidbit}<p>
   </section>
   <section id="continue-box" class="flex">
-      <button type="button" id="next" class="halftone js-next">Next</button>
-  </section>
-  <section id="score-box" class="halftone flex">
-    <h3> Score: ${generateScoreCounter()}</h3>
+   <aside id="score-box" class="halftone flex">
+     <h3> Score: ${generateScoreCounter()}</h3>
+   </aside>
+   <button type="button" id="next" class="halftone js-next">Next</button>
   </section>
 </article>`;
 }
 
+function generateScoreMsg() {
+  const scorePercent = (store.score / store.questions.length) * 100;
+  const scorePercentRounded = Math.round(
+    ((scorePercent + Number.EPSILON) * 100) / 100
+  );
+  let congratsMsg = ``;
+
+  if (scorePercentRounded === 100) {
+    congratsMsg = `Perfect! Congratulations!`;
+  } else if (scorePercentRounded > 75) {
+    congratsMsg = `You did great! Congratulations!`;
+  } else if (scorePercentRounded > 50) {
+    congratsMsg = `Pretty good! Congratulations!`;
+  } else if (scorePercentRounded > 25) {
+    congratsMsg = `Not bad! Give it another go!`;
+  } else {
+    congratsMsg = `Try it again!`;
+  }
+
+  return `
+  <p> That's
+  <span id="score-percent">${scorePercentRounded}%</span>.
+  ${congratsMsg}
+  </p>
+  `;
+}
+
 function generateResultsPrompt() {
+  generateScoreMsg();
   return `
   <article>
   <section id="question-box" class="halftone flex">
     <h2>Your Score was: ${generateScoreCounter()}</h2>
+    ${generateScoreMsg()}
   </section>
   <section id="start-box" class="halftone flex">
     <h3>You can play again!</h3>
     <p>Restart the quiz by pressing the button below_</p>
+    </section>
+    <section id="restart-button-box" class="flex">
     <button type="button" id="restart" class="halftone js-restart">Start again</button>
   </section>
  </article>`;
