@@ -70,7 +70,7 @@ function generateStartPrompt() {
   <section id="start-box" class="halftone flex">
     <h3>Welcome User!</h3>
     <p>Start the quiz by pressing the button below_</p>
-    <button type="button" id="start">Start</button>
+    <button type="button" id="start" class="js-start">Start</button>
   </section>
  </article>`;
 }
@@ -115,11 +115,12 @@ function generateQuestionPrompt(currentQuestion) {
     ${generateQuestion(currentQuestion)}
   </section>
   <section id="answers-box">
-    <form>
+    <form class ="js-quiz-form">
       <ol>
       ${generateAswerList(currentQuestion)}
       </ol>
-      <button type="submit" id="submit-answer">Submit</button>
+      <div class="error-box"><p><span class="js-error"></span></p><div>
+      <button type="submit" id="submit-answer" class="js-submit">Submit</button>
     </form>
   </section>
   <section id="score-box" class="halftone flex">
@@ -132,11 +133,11 @@ function generateAnswerConfirmationPrompt(currentQuestion, currentResult) {
   return `
   <article>
   <section id="tidbit-box" class="halftone flex">
-    <h3>${currentResult ? `Correct!`: `Wrong.` }</h3>
+    <h3>${currentResult ? `Correct!` : `Wrong.`}</h3>
     <p>${store.questions[currentQuestion].tidbit}<p>
   </section>
   <section id="continue-box">
-      <button type="button" id="next">Next</button>
+      <button type="button" id="next" class="js-next">Next</button>
   </section>
   <section id="score-box" class="halftone flex">
     <h3> Score: ${generateScoreCounter()}</h3>
@@ -153,7 +154,7 @@ function generateResultsPrompt() {
   <section id="start-box" class="halftone flex">
     <h3>You can play again!</h3>
     <p>Restart the quiz by pressing the button below_</p>
-    <button type="button" id="restart">Start again</button>
+    <button type="button" id="restart" class="js-restart">Start again</button>
   </section>
  </article>`;
 }
@@ -163,43 +164,106 @@ function generateResultsPrompt() {
 // This function conditionally replaces the contents of the <main> tag based on the state of the store
 function renderQuizView() {
   console.log(`renderQuizView ${msg}`);
-  store.quizStarted = true;
-  store.currentQuestion = 0;
-  store.score = 10;
+  //store.quizStarted = false;
+  //store.currentQuestion = 0;
+  //store.score = 0;
 
   const quizStarted = store.quizStarted;
-  const currentQuestion = store.currentQuestion;
+  const currentQuestion = store.questionNumber;
 
+  console.log(`${quizStarted} ${currentQuestion}`);
   if (quizStarted && currentQuestion < store.questions.length) {
-    $("main").html(generateAnswerConfirmationPrompt(currentQuestion,true));
-  } else if (!quizStarted && currentQuestion === store.questions.length) {
+    $("main").html(generateQuestionPrompt(currentQuestion, true));
+  } else if (!quizStarted && currentQuestion + 1 === store.questions.length) {
     $("main").html(generateResultsPrompt());
   } else {
     $("main").html(generateStartPrompt());
   }
 }
 
+function renderAnswerConfirmationView(currentQuestion, currentResult) {
+  $("main").html(
+    generateAnswerConfirmationPrompt(currentQuestion, currentResult)
+  );
+}
+
 /********** EVENT HANDLER FUNCTIONS **********/
 
 // These functions handle events (submit, click, etc)
 
+function quizStartState(state) {
+  store.quizStarted = state;
+}
+
 function handleStartClicked() {
-  console.log(`handleStartClicked ${msg}`);
+  $("main").on("click", ".js-start", (e) => {
+    console.log(`handleStartClicked ${msg}`);
+    console.log(e.currentTarget);
+    quizStartState(true);
+    StoreState();
+    renderQuizView();
+  });
 }
-function storeQuestionCount() {
-  console.log(`storeQuestionCount ${msg}`);
-}
+
 function storeScoreCount() {
   console.log(`storeScoreCount ${msg}`);
+  store.score++;
 }
 function handleSubmitClicked() {
-  console.log(`handleSubmitClicked ${msg}`);
+  $("main").on("submit", ".js-quiz-form", (e) => {
+    e.preventDefault();
+    console.log(`handleSubmitClicked ${msg}`);
+    const currentQuestion = store.questionNumber;
+    const correctAnswer = store.questions[currentQuestion].correctAnswer;
+    const submittedAnswer = $(e.currentTarget).serializeArray()[0];
+    let isCorrect = false;
+    if (submittedAnswer === undefined) {
+      $(".js-error").text("Please select one Answer").show();
+    } else if (submittedAnswer.value === correctAnswer) {
+      isCorrect = true;
+      storeScoreCount();
+      renderAnswerConfirmationView(currentQuestion, isCorrect);
+    } else {
+      renderAnswerConfirmationView(currentQuestion, isCorrect);
+    }
+  });
 }
+
+function storeQuestionCount() {
+  console.log(`storeQuestionCount ${msg}`);
+  store.questionNumber++;
+}
+
 function handleNextClicked() {
   console.log(`handleNextClicked ${msg}`);
+  $("main").on("click", ".js-next", (e) => {
+    const currentQuestion = store.questionNumber;
+    console.log(
+      `Currently on question ${currentQuestion} of ${store.questions.length}`
+    );
+    if (currentQuestion + 1 === store.questions.length) {
+      quizStartState(false);
+      renderQuizView();
+    } else {
+      storeQuestionCount();
+      renderQuizView();
+    }
+  });
 }
+
+function zeroValues() {
+  store.score = 0;
+  store.questionNumber = 0;
+}
+
 function handleStartAgainClicked() {
-  console.log(`handleStartAgainClicked ${msg}`);
+  $("main").on("click", ".js-restart", (e) => {
+    console.log(`handleStartAgainClicked ${msg}`);
+
+    zeroValues();
+    quizStartState(true);
+    renderQuizView();
+  });
 }
 
 function handleQuizApp() {
@@ -208,7 +272,7 @@ function handleQuizApp() {
   handleStartClicked();
   handleSubmitClicked();
   handleNextClicked();
-  handleStartClicked();
+  handleStartAgainClicked();
 }
 
 $(handleQuizApp);

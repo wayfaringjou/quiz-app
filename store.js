@@ -17,7 +17,7 @@ const store = {
       answers: ["Iron", "Silver", "Lithium", "Fluorine"],
       correctAnswer: "Iron",
       tidbit: `If you were working with the element denoted as "Fe" on the periodic table, you would be working with iron. Iron is the fourth most abundant element found in the earth's crust, and it's the sixth most common element in the entire universe.`,
-    },
+    },/*
     {
       question: `Elements found on Earth are exactly the same as elements found on which other planet?`,
       answers: ["Jupiter", "Venus", "Mars", "Uranus"],
@@ -170,7 +170,7 @@ const store = {
       answers: ["Magnesium", "Aluminum", "Silicon", "Iron"],
       correctAnswer: "Aluminum",
       tidbit: `Silicon is a metalloid, not a metal, although it is the third most abundant element in the Earth's crust. The most abundant metal is aluminum, which accounts for about 8% of the crust by volume.`,
-    },
+    },*/
   ],
   quizStarted: false,
   questionNumber: 0,
