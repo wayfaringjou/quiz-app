@@ -64,13 +64,15 @@ function StoreState() {
 function generateStartPrompt() {
   return `
   <article>
-  <section id="question-box" class="halftone flex">
+  <section id="intro-box" class="halftone flex">
     <h2>A Quiz About the Periodic Table</h2>
   </section>
   <section id="start-box" class="halftone flex">
     <h3>Welcome User!</h3>
     <p>Start the quiz by pressing the button below_</p>
-    <button type="button" id="start" class="js-start">Start</button>
+  </section>
+  <section id="start-button-box" class="flex">
+    <button type="button" id="start" class="halftone js-start">Start</button>
   </section>
  </article>`;
 }
@@ -78,7 +80,8 @@ function generateStartPrompt() {
 function generateQuestionCounter(currentQuestion) {
   const questionCount = store.questions.length;
   return `
- <h3>Question ${currentQuestion + 1} of ${questionCount}:</h3>`;
+  <h2>Question:</h2>
+  <h3>${currentQuestion + 1} of ${questionCount}</h3>`;
 }
 
 function generateQuestion(currentQuestion) {
@@ -90,7 +93,7 @@ function generateQuestion(currentQuestion) {
 function generateAnswerListElements(item) {
   return `
   <li>
-    <input name="answer" type="radio" value="${item}" />
+    <input name="answer" id="${item}" type="radio" value="${item}" />
     <label for="${item}">${item}</label>
   </li>`;
 }
@@ -99,6 +102,7 @@ function generateAswerList(currentQuestion) {
   const answers = store.questions[currentQuestion].answers.map((item) =>
     generateAnswerListElements(item)
   );
+  answers[0] = answers[0].replace("<input", "<input required");
   return answers.join("");
 }
 
@@ -115,20 +119,20 @@ function generateQuestionPrompt(currentQuestion) {
     ${generateQuestion(currentQuestion)}
   </section>
   <section id="answers-box">
-    <form class ="js-quiz-form">
-      <ol>
-      ${generateAswerList(currentQuestion)}
-      </ol>
-      
-      <div class="submit-btn">
-      <div class="error-box"><p><span class="js-error"></span></p></div>
-      <button type="submit" id="submit-answer" class="js-submit">Submit</button>
-      </div>
+    <form id="answers" class="flex js-quiz-form">
+      <fieldset form="answers" class="flex">
+        <legend>Your Answer:</legend>
+        <ol>
+          ${generateAswerList(currentQuestion)}
+        </ol>
+        <button type="submit" id="submit-answer" class="halftone js-submit">Submit</button>
+      </fieldset>
     </form>
+    <section id="score-box" class="halftone">
+      <h3> Score: ${generateScoreCounter()}</h3>
+    </section>
   </section>
-  <section id="score-box" class="halftone flex">
-    <h3> Score: ${generateScoreCounter()}</h3>
-  </section>
+  
 </article>`;
 }
 
@@ -139,8 +143,8 @@ function generateAnswerConfirmationPrompt(currentQuestion, currentResult) {
     <h3>${currentResult ? `Correct!` : `Wrong.`}</h3>
     <p>${store.questions[currentQuestion].tidbit}<p>
   </section>
-  <section id="continue-box">
-      <button type="button" id="next" class="js-next">Next</button>
+  <section id="continue-box" class="flex">
+      <button type="button" id="next" class="halftone js-next">Next</button>
   </section>
   <section id="score-box" class="halftone flex">
     <h3> Score: ${generateScoreCounter()}</h3>
@@ -157,7 +161,7 @@ function generateResultsPrompt() {
   <section id="start-box" class="halftone flex">
     <h3>You can play again!</h3>
     <p>Restart the quiz by pressing the button below_</p>
-    <button type="button" id="restart" class="js-restart">Start again</button>
+    <button type="button" id="restart" class="halftone js-restart">Start again</button>
   </section>
  </article>`;
 }
@@ -220,15 +224,12 @@ function handleSubmitClicked() {
     const correctAnswer = store.questions[currentQuestion].correctAnswer;
     const submittedAnswer = $(e.currentTarget).serializeArray()[0];
     let isCorrect = false;
-    if (submittedAnswer === undefined) {
-      $(".js-error").text("Please select one Answer").show();
-    } else if (submittedAnswer.value === correctAnswer) {
+    if (submittedAnswer.value === correctAnswer) {
       isCorrect = true;
       storeScoreCount();
       renderAnswerConfirmationView(currentQuestion, isCorrect);
-    } else {
-      renderAnswerConfirmationView(currentQuestion, isCorrect);
     }
+    renderAnswerConfirmationView(currentQuestion, isCorrect);
   });
 }
 
