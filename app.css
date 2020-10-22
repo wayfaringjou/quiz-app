@@ -135,6 +135,10 @@ header {
   flex-flow: row wrap;
 }
 
+#form-wrapper {
+  justify-content: flex-start;
+}
+
 #answers-box form input[type="radio"] {
   display: inline-block;
   color: #000;

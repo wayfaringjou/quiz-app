@@ -43,6 +43,7 @@ function generateAswerList(currentQuestion) {
   const answers = store.questions[currentQuestion].answers.map((item) =>
     generateAnswerListElements(item)
   );
+  // Add required attribute to prevent empty submission
   answers[0] = answers[0].replace("<input", "<input required");
   return answers.join("");
 }
@@ -145,16 +146,30 @@ function generateResultsPrompt() {
 function renderQuizView() {
   const quizStarted = store.quizStarted;
   const currentQuestion = store.questionNumber;
-
+  /* 
+  - The original state of 'store.quizStarted' is 'false'
+  - When the user clicks the start button it is changed to 'true'
+  - After each submitted question the user is prompted to click a 'next' button
+  - Each time 'next' is clicked 'store.questionNumber' goes up by '1'
+  - When 'store.questionNumber' (+ 1 because it starts at 0) is equal
+    to the length of 'store.questions'clicking next won't add to 
+    'store.questionNumber' instead it will turn 'store.quizStarted' to false 
+    */
+  
+    // Render question prompt when quiz is started and there are questions left
   if (quizStarted && currentQuestion < store.questions.length) {
     $("main").html(generateQuestionPrompt(currentQuestion, true));
+    // Render results prompt when quiz is no longer started and
+    // an answer has been submitted for all questions
   } else if (!quizStarted && currentQuestion + 1 === store.questions.length) {
     $("main").html(generateResultsPrompt());
+    // Else render start prompt
   } else {
     $("main").html(generateStartPrompt());
   }
 }
 
+// This function renders the result after each answer submission
 function renderAnswerConfirmationView(currentQuestion, currentResult) {
   $("main").html(
     generateAnswerConfirmationPrompt(currentQuestion, currentResult)
@@ -167,7 +182,9 @@ function renderAnswerConfirmationView(currentQuestion, currentResult) {
 function quizStartState(state) {
   store.quizStarted = state;
 }
-
+// When 'Start' is clicked call quizStartState 
+// with true as a parameter to store that value
+// Then call the renderer
 function handleStartClicked() {
   $("main").on("click", ".js-start", (e) => {
     quizStartState(true);
@@ -178,13 +195,22 @@ function handleStartClicked() {
 function storeScoreCount() {
   store.score++;
 }
+// When 'Submit' is clicked check if answer is correct, 
+// add to store.score if that's the case 
+// and call renderConfirmationView to show the user the result
+// of their answer
 function handleSubmitClicked() {
-  $("main").on("submit", ".js-quiz-form", (e) => {
+  $("main").on("submit", ".js-quiz-form", function (e) {
     e.preventDefault();
     const currentQuestion = store.questionNumber;
     const correctAnswer = store.questions[currentQuestion].correctAnswer;
-    const submittedAnswer = $(e.currentTarget).serializeArray()[0];
+    // serializeArray() returns an array with the data collected by the form
+    // when 'Submit' (this) is clicked. In this case the selected radio button
+    // to prevent an empty submission a 'required' attribute is added to the form
+    const submittedAnswer = $(this).serializeArray()[0];
     let isCorrect = false;
+    // Compare the value of 'answer' to correctAnswer 
+    // for the current question in store
     if (submittedAnswer.value === correctAnswer) {
       isCorrect = true;
       storeScoreCount();
@@ -197,7 +223,12 @@ function handleSubmitClicked() {
 function storeQuestionCount() {
   store.questionNumber++;
 }
-
+// When 'next' is clicked call storeQustionCount() to
+// add one to 'store.questionNumber'
+// When the user has submitted an answer to the last question
+// clicking 'next' will call quizStartState with false as a parameter
+// to change store.quizStarted to that value
+// Then call the renderer
 function handleNextClicked() {
   $("main").on("click", ".js-next", (e) => {
     const currentQuestion = store.questionNumber;
@@ -215,10 +246,12 @@ function zeroValues() {
   store.score = 0;
   store.questionNumber = 0;
 }
-
+// When 'Start Again' is clicked call zeroValues()
+// to reset score and questionNumber and quizStartState()
+// to change store.quizStarted to true
+// Then call the renderer
 function handleStartAgainClicked() {
   $("main").on("click", ".js-restart", (e) => {
-
     zeroValues();
     quizStartState(true);
     renderQuizView();
