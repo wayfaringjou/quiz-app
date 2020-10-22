@@ -1,3 +1,7 @@
+// Questions, answers and facts from: 
+// https://www.thoughtco.com/element-trivia-quiz-4061564
+// https://play.howstuffworks.com/quiz/can-you-pass-this-periodic-table-trivia-quiz
+
 const store = {
   questions: [
     {
